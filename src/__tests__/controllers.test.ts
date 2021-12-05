@@ -9,7 +9,7 @@ describe('Episodes controller', () => {
   });
 
   it('responds to a request', async () => {
-    const response = await request(app).get('/');
+    const response = await request(app).get('/episodes');
     expect(response).toBeTruthy();
   });
 });
