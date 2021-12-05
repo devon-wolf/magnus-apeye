@@ -6,6 +6,7 @@ describe('Episode model', () => {
   beforeEach(async () => {
     await setup(pool);
   });
+
   it('exists', () => {
     expect(Episode).toBeTruthy();
   });
