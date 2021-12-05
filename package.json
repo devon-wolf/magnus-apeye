@@ -10,8 +10,8 @@
     "start:dev": "nodemon  -r dotenv/config dist/server.js",
     "start:watch": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
     "setup-db": "tsc && node -r dotenv/config dist/setup-db.js",
-    "test": "jest --verbose --runInBand --testLocationInResults --detectOpenHandles --setupFiles dotenv/config",
-    "test:watch": "jest --watch --verbose --runInBand --testLocationInResults --detectOpenHandles --setupFiles dotenv/config"
+    "test": "jest --coverage --verbose --runInBand --testLocationInResults --detectOpenHandles --setupFiles dotenv/config",
+    "test:watch": "jest --watch --coverage --verbose --runInBand --testLocationInResults --detectOpenHandles --setupFiles dotenv/config"
   },
   "jest": {
     "preset": "ts-jest",
