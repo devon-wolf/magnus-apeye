@@ -44,7 +44,7 @@ describe('Episode model', () => {
     const { transcript: transcriptOne, ...restOne } = episodeOne;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { transcript: transcriptTwo, ...restTwo } = episodeTwo;
-    
+
     const expected = [
       { ...restOne, id: expect.any(String), releaseDate: expect.any(Date) },
       { ...restTwo, id: expect.any(String), releaseDate: expect.any(Date) },
@@ -59,8 +59,12 @@ describe('Episode model', () => {
   });
 
   it('gets an episode by its id', async () => {
-    const episode = await Episode.create(episodeOne) as Episode;
-    const expected = { ...episodeOne, id: episode.id, releaseDate: expect.any(Date) };
+    const episode = (await Episode.create(episodeOne)) as Episode;
+    const expected = {
+      ...episodeOne,
+      id: episode.id,
+      releaseDate: expect.any(Date),
+    };
     const actual = await Episode.getById(episode.id);
     expect(actual).toEqual(expected);
   });
