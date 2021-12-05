@@ -17,5 +17,5 @@ describe('app tests', () => {
     const response = await request(app).get('/not-an-implemented-endpoint');
     expect(response.status).toBe(404);
     expect(response.error).toBeTruthy();
-  })
+  });
 });
