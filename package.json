@@ -1,7 +1,7 @@
 {
-  "name": "node-typescript-base",
+  "name": "magnus-apeye",
   "version": "1.0.0",
-  "description": "A TypeScript template for Node-Express-Postgres projects",
+  "description": "",
   "main": "dist/server.js",
   "scripts": {
     "build:dev": "tsc --watch --preserveWatchOutput",
