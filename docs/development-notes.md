@@ -12,5 +12,6 @@ The minimum viable product for this project will meet the following criteria:
     - episode number
     - season in which episode appears
     - episode transcript
+    - episode release date
 
 This is the barest-bones initial goal.
