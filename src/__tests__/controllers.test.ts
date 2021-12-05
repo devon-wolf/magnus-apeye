@@ -1,5 +1,5 @@
-import setup from '../data/setup';
-import pool from '../lib/utils/pool';
+import setup from '../lib/database/setup';
+import pool from '../lib/database/pool';
 import request from 'supertest';
 import app from '../lib/app';
 

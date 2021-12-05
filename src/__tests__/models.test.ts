@@ -1,6 +1,6 @@
-import setup from '../data/setup';
+import setup from '../lib/database/setup';
 import Episode from '../lib/models/Episode';
-import pool from '../lib/utils/pool';
+import pool from '../lib/database/pool';
 
 describe('Episode model', () => {
   beforeEach(async () => {
