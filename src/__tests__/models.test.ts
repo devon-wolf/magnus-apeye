@@ -39,6 +39,12 @@ describe('Episode model', () => {
     expect(actual).toEqual(expected);
   });
 
+  it('creates episodes in bulk', async () => {
+    const expected = { success: true, count: 2 };
+    const actual = await Episode.ingest([episodeOne, episodeTwo]);
+    expect(actual).toEqual(expected);
+  });
+
   it('gets all episodes', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { transcript: transcriptOne, ...restOne } = episodeOne;
@@ -50,8 +56,7 @@ describe('Episode model', () => {
       { ...restTwo, id: expect.any(String), releaseDate: expect.any(Date) },
     ];
 
-    await Episode.create(episodeOne);
-    await Episode.create(episodeTwo);
+    await Episode.ingest([episodeOne, episodeTwo]);
 
     const actual = await Episode.getAll();
 

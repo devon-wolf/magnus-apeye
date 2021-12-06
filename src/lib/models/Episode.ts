@@ -43,6 +43,20 @@ class Episode {
     }
   }
 
+  static async ingest(
+    episodes: EpisodeInput[]
+  ): Promise<{ success: boolean; count?: number; error?: Error }> {
+    try {
+      const bulkEpisodes: Array<Episode | unknown> = await Promise.all(
+        episodes.map((episode) => Episode.create(episode))
+      );
+      return { success: true, count: bulkEpisodes.length };
+    } catch (error) {
+      console.error(error);
+      return { success: false, error: error as Error };
+    }
+  }
+
   static async getAll(): Promise<Episode[] | unknown> {
     try {
       const { rows } = await pool.query(`
