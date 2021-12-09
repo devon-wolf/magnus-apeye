@@ -86,6 +86,21 @@ class Episode {
       return error;
     }
   }
+
+  static async getByEpisodeNumber(
+    episodeNumber: number
+  ): Promise<Episode | unknown> {
+    try {
+      const { rows } = await pool.query(
+        'SELECT * FROM episodes WHERE episode_number=$1',
+        [episodeNumber]
+      );
+      return new Episode(rows[0]);
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  }
 }
 
 export default Episode;

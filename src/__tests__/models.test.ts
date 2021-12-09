@@ -73,4 +73,18 @@ describe('Episode model', () => {
     const actual = await Episode.getById(episode.id);
     expect(actual).toEqual(expected);
   });
+  
+  it('gets an episode by episode number', async () => {
+    const expected = {
+      ...episodeTwo,
+      id: expect.any(String),
+      releaseDate: expect.any(Date),
+    };
+    
+    await Episode.ingest([episodeOne, episodeTwo]);
+
+    const actual = await Episode.getByEpisodeNumber(2);
+
+    expect(actual).toEqual(expected);
+  })
 });
