@@ -43,7 +43,7 @@ class Episode {
     }
   }
 
-  static async ingest(
+  static async bulkCreate(
     episodes: EpisodeInput[]
   ): Promise<{ success: boolean; count?: number; error?: Error }> {
     try {
