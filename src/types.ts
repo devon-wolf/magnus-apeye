@@ -48,3 +48,9 @@ export interface MarkdownTranscript {
   };
   transcript: string | string[];
 }
+
+export interface BulkCreateResponse {
+  success: boolean;
+  count?: number | undefined;
+  error?: Error | undefined;
+}

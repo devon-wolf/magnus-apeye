@@ -1,7 +1,10 @@
 import * as fs from 'fs/promises';
+import { BulkCreateResponse, EpisodeInput } from '../../types';
+import Episode from '../models/Episode';
 
-const readRawFile = async (filename: string) => {
+export const readRawFile = async (filename: string): Promise<string | void> => {
   try {
+    console.log(`trying to read ${filename}...`)
     const data = await fs.readFile(`${__dirname}/../../../assets/${filename}`, {
       encoding: 'utf-8',
     });
@@ -11,24 +14,83 @@ const readRawFile = async (filename: string) => {
   }
 };
 
-// example of how to get the data:
-// console.log(
-//   readRawFile('sample-episode')
-//      .then((result) => console.log(result))
-// );
-
-const readAllAssets = async () => {
+export const getAssetNames = async (): Promise<string[] | void> => {
   try {
-    const dirFiles = await fs.readdir(`${__dirname}/../../../assets`);
+    const assetNames = await fs.readdir(`${__dirname}/../../../assets`);
+    return assetNames;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    const allFileContents = await Promise.all(
-      dirFiles.map((file) => readRawFile(file))
-    );
-
+export const readAllFilesByName = async (
+  filenames: string[]
+): Promise<string[] | void> => {
+  try {
+    const allFileContents = (await Promise.all(
+      filenames.map((filename) => readRawFile(filename))
+    )) as string[];
     return allFileContents;
   } catch (error) {
     console.error(error);
   }
 };
 
-console.log(readAllAssets().then((result) => console.log(result)));
+export const readAllAssets = async (): Promise<string[] | void> => {
+  try {
+    const assetNames = (await getAssetNames()) as string[];
+    const allFileContents = await readAllFilesByName(assetNames);
+    return allFileContents;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const mungeEpisode = (rawTranscript: string): EpisodeInput => {
+  const splitFileContents = rawTranscript.split('---\n\n');
+  const metadata = splitFileContents[0];
+  const transcript = splitFileContents[1];
+
+  const episodeNumber = Number(
+    metadata.split('episode_number:')[1].trim().slice(1, 4)
+  );
+
+  const season =
+    episodeNumber <= 40
+      ? 1
+      : episodeNumber <= 80
+      ? 2
+      : episodeNumber <= 120
+      ? 3
+      : episodeNumber <= 160
+      ? 4
+      : 5;
+
+  const title = metadata.split('episode_title:')[1].split('\n')[0].trim();
+
+  const releaseDate = new Date(metadata.split('date:')[1].trim().slice(0, 10));
+
+  return {
+    episodeNumber,
+    season,
+    title,
+    releaseDate,
+    transcript,
+  };
+};
+
+export const seedEpisodesIntoDb = async (): Promise<BulkCreateResponse | void> => {
+  try {
+    console.log('trying to seed episodes...');
+    const episodeFiles = (await readAllAssets()) as string[];
+    if (!episodeFiles) throw new Error('Could not read episode files');
+
+    const seedResults = await Episode.bulkCreate(
+      episodeFiles.map((file) => mungeEpisode(file))
+    );
+
+    return seedResults;
+  } catch (error) {
+    console.error(error);
+  }
+};

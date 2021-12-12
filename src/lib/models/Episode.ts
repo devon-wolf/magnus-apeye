@@ -1,4 +1,4 @@
-import { DatabaseEpisode, EpisodeInput } from '../../types';
+import { BulkCreateResponse, DatabaseEpisode, EpisodeInput } from '../../types';
 import pool from '../database/pool';
 
 class Episode {
@@ -36,6 +36,7 @@ class Episode {
         `,
         [episodeNumber, title, season, transcript, releaseDate]
       );
+      console.log(`Episode ${episodeNumber} created!`);
       return new Episode(rows[0]);
     } catch (error) {
       console.error(error);
@@ -45,7 +46,7 @@ class Episode {
 
   static async bulkCreate(
     episodes: EpisodeInput[]
-  ): Promise<{ success: boolean; count?: number; error?: Error }> {
+  ): Promise<BulkCreateResponse> {
     try {
       const bulkEpisodes: Array<Episode | unknown> = await Promise.all(
         episodes.map((episode) => Episode.create(episode))
