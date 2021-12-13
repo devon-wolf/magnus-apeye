@@ -1,5 +1,3 @@
-import setup from '../lib/database/setup';
-import pool from '../lib/database/pool';
 import {
   readRawFile,
   getAssetNames,
@@ -14,10 +12,6 @@ import {
 import { EpisodeInput } from '../types';
 
 describe('data ingestion unit tests', () => {
-  beforeEach(async () => {
-    await setup(pool);
-  });
-
   it('reads the contents of a file', async () => {
     const expected = transcriptOne;
     const actual = await readRawFile(
@@ -41,22 +35,6 @@ describe('data ingestion unit tests', () => {
 
   it('returns the contents of all files in the asset directory', async () => {
     const expected = [transcriptOne, transcriptTwo, transcriptThree];
-    // const altExpected1 = [transcriptOne, transcriptThree, transcriptTwo];
-    // const altExpected2 = [transcriptTwo, transcriptOne, transcriptThree];
-    // const altExpected3 = [transcriptTwo, transcriptThree, transcriptOne];
-    // const altExpected4 = [transcriptThree, transcriptTwo, transcriptOne];
-    // const altExpected5 = [transcriptThree, transcriptOne, transcriptTwo];
-
-    // const matchResult = (result: string[]): boolean => {
-    //   return (
-    //     result === expected ||
-    //     result === altExpected1 ||
-    //     result === altExpected2 ||
-    //     result === altExpected3 ||
-    //     result === altExpected4 ||
-    //     result === altExpected5
-    //   );
-    // };
     const actual = await readAllAssets(
       `${__dirname}/../constants/test-markdown`
     );
