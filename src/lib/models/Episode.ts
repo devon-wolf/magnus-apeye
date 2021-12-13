@@ -1,4 +1,4 @@
-import { DatabaseEpisode, EpisodeInput } from '../../types';
+import { BulkCreateResponse, DatabaseEpisode, EpisodeInput } from '../../types';
 import pool from '../database/pool';
 
 class Episode {
@@ -25,6 +25,41 @@ class Episode {
     this.releaseDate = release_date;
   }
 
+  static shapeInput(rawTranscript: string): EpisodeInput {
+    const splitFileContents = rawTranscript.split('---\n\n');
+    const metadata = splitFileContents[0];
+    const transcript = splitFileContents[1];
+
+    const episodeNumber = Number(
+      metadata.split('episode_number:')[1].trim().slice(1, 4)
+    );
+
+    const season =
+      episodeNumber <= 40
+        ? 1
+        : episodeNumber <= 80
+        ? 2
+        : episodeNumber <= 120
+        ? 3
+        : episodeNumber <= 160
+        ? 4
+        : 5;
+
+    const title = metadata.split('episode_title:')[1].split('\n')[0].trim();
+
+    const releaseDate = new Date(
+      metadata.split('date:')[1].trim().slice(0, 10)
+    );
+
+    return {
+      episodeNumber,
+      season,
+      title,
+      releaseDate,
+      transcript,
+    };
+  }
+
   static async create(episode: EpisodeInput): Promise<Episode | unknown> {
     const { episodeNumber, title, season, transcript, releaseDate } = episode;
     try {
@@ -36,6 +71,7 @@ class Episode {
         `,
         [episodeNumber, title, season, transcript, releaseDate]
       );
+      console.log(`Episode ${episodeNumber} created!`);
       return new Episode(rows[0]);
     } catch (error) {
       console.error(error);
@@ -43,9 +79,9 @@ class Episode {
     }
   }
 
-  static async ingest(
+  static async bulkCreate(
     episodes: EpisodeInput[]
-  ): Promise<{ success: boolean; count?: number; error?: Error }> {
+  ): Promise<BulkCreateResponse> {
     try {
       const bulkEpisodes: Array<Episode | unknown> = await Promise.all(
         episodes.map((episode) => Episode.create(episode))
@@ -68,7 +104,13 @@ class Episode {
             release_date
             FROM episodes
           `);
-      return rows.map((row) => new Episode(row));
+      return rows.map(
+        (row: DatabaseEpisode) =>
+          new Episode({
+            ...row,
+            transcript: `Use Episode.getById(${row.id}) or Episode.getByEpisodeNumber(${row.episode_number}) for transcript`,
+          })
+      );
     } catch (error) {
       console.error(error);
       return error;
@@ -80,6 +122,21 @@ class Episode {
       const { rows } = await pool.query('SELECT * FROM episodes WHERE id=$1', [
         id,
       ]);
+      return new Episode(rows[0]);
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  }
+
+  static async getByEpisodeNumber(
+    episodeNumber: number
+  ): Promise<Episode | unknown> {
+    try {
+      const { rows } = await pool.query(
+        'SELECT * FROM episodes WHERE episode_number=$1',
+        [episodeNumber]
+      );
       return new Episode(rows[0]);
     } catch (error) {
       console.error(error);

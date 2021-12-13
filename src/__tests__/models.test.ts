@@ -1,6 +1,14 @@
 import setup from '../lib/database/setup';
 import Episode from '../lib/models/Episode';
 import pool from '../lib/database/pool';
+import { transcriptThree } from '../constants/test-data/expectedTranscripts';
+import {
+  episodeOne,
+  episodeTwo,
+  episodeThree,
+} from '../constants/test-data/expectedEpisodes';
+
+// TODO fix dates
 
 describe('Episode model', () => {
   beforeEach(async () => {
@@ -11,22 +19,11 @@ describe('Episode model', () => {
     expect(Episode).toBeTruthy();
   });
 
-  // TODO fix dates
-  const episodeOne = {
-    episodeNumber: 1,
-    title: 'Anglerfish',
-    season: 1,
-    transcript: 'Statement begins...',
-    releaseDate: new Date('2016-03-23'),
-  };
-
-  const episodeTwo = {
-    episodeNumber: 2,
-    title: 'Do Not Open',
-    season: 1,
-    transcript: 'Statement begins...',
-    releaseDate: new Date('2016-03-25'),
-  };
+  it('shapes raw string contents into an episode input object', () => {
+    const expected = episodeThree;
+    const actual = Episode.shapeInput(transcriptThree);
+    expect(actual).toEqual(expected);
+  });
 
   it('creates a new episode in the db', async () => {
     const expected = {
@@ -35,31 +32,43 @@ describe('Episode model', () => {
       releaseDate: expect.any(Date),
     };
     const actual = await Episode.create(episodeOne);
-
     expect(actual).toEqual(expected);
   });
 
   it('creates episodes in bulk', async () => {
-    const expected = { success: true, count: 2 };
-    const actual = await Episode.ingest([episodeOne, episodeTwo]);
+    const expected = { success: true, count: 3 };
+    const actual = await Episode.bulkCreate([
+      episodeOne,
+      episodeTwo,
+      episodeThree,
+    ]);
     expect(actual).toEqual(expected);
   });
 
   it('gets all episodes', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { transcript: transcriptOne, ...restOne } = episodeOne;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { transcript: transcriptTwo, ...restTwo } = episodeTwo;
-
     const expected = [
-      { ...restOne, id: expect.any(String), releaseDate: expect.any(Date) },
-      { ...restTwo, id: expect.any(String), releaseDate: expect.any(Date) },
+      {
+        ...episodeOne,
+        id: '1',
+        releaseDate: expect.any(Date),
+        transcript: `Use Episode.getById(1) or Episode.getByEpisodeNumber(1) for transcript`,
+      },
+      {
+        ...episodeTwo,
+        id: '2',
+        releaseDate: expect.any(Date),
+        transcript: `Use Episode.getById(2) or Episode.getByEpisodeNumber(2) for transcript`,
+      },
+      {
+        ...episodeThree,
+        id: '3',
+        releaseDate: expect.any(Date),
+        transcript: `Use Episode.getById(3) or Episode.getByEpisodeNumber(3) for transcript`,
+      },
     ];
 
-    await Episode.ingest([episodeOne, episodeTwo]);
-
+    await Episode.bulkCreate([episodeOne, episodeTwo, episodeThree]);
     const actual = await Episode.getAll();
-
     expect(actual).toEqual(expected);
   });
 
@@ -71,6 +80,17 @@ describe('Episode model', () => {
       releaseDate: expect.any(Date),
     };
     const actual = await Episode.getById(episode.id);
+    expect(actual).toEqual(expected);
+  });
+
+  it('gets an episode by episode number', async () => {
+    const expected = {
+      ...episodeTwo,
+      id: expect.any(String),
+      releaseDate: expect.any(Date),
+    };
+    await Episode.bulkCreate([episodeOne, episodeTwo, episodeThree]);
+    const actual = await Episode.getByEpisodeNumber(2);
     expect(actual).toEqual(expected);
   });
 });
