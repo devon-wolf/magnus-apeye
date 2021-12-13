@@ -2,3 +2,6 @@ node_modules
 .env
 dist
 coverage
+assets
+src/constants/test-data
+src/constants/test-markdown
