@@ -25,6 +25,41 @@ class Episode {
     this.releaseDate = release_date;
   }
 
+  static shapeInput(rawTranscript: string): EpisodeInput {
+    const splitFileContents = rawTranscript.split('---\n\n');
+    const metadata = splitFileContents[0];
+    const transcript = splitFileContents[1];
+
+    const episodeNumber = Number(
+      metadata.split('episode_number:')[1].trim().slice(1, 4)
+    );
+
+    const season =
+      episodeNumber <= 40
+        ? 1
+        : episodeNumber <= 80
+        ? 2
+        : episodeNumber <= 120
+        ? 3
+        : episodeNumber <= 160
+        ? 4
+        : 5;
+
+    const title = metadata.split('episode_title:')[1].split('\n')[0].trim();
+
+    const releaseDate = new Date(
+      metadata.split('date:')[1].trim().slice(0, 10)
+    );
+
+    return {
+      episodeNumber,
+      season,
+      title,
+      releaseDate,
+      transcript,
+    };
+  }
+
   static async create(episode: EpisodeInput): Promise<Episode | unknown> {
     const { episodeNumber, title, season, transcript, releaseDate } = episode;
     try {
@@ -69,7 +104,13 @@ class Episode {
             release_date
             FROM episodes
           `);
-      return rows.map((row) => new Episode(row));
+      return rows.map(
+        (row: DatabaseEpisode) =>
+          new Episode({
+            ...row,
+            transcript: `Use Episode.getById(${row.id}) or Episode.getByEpisodeNumber(${row.episode_number}) for transcript`,
+          })
+      );
     } catch (error) {
       console.error(error);
       return error;
