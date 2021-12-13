@@ -2,9 +2,12 @@ import * as fs from 'fs/promises';
 import { BulkCreateResponse, EpisodeInput } from '../../types';
 import Episode from '../models/Episode';
 
-export const readRawFile = async (filename: string, path = `${__dirname}/../../../assets`): Promise<string | void> => {
+export const readRawFile = async (
+  filename: string,
+  path = `${__dirname}/../../../assets`
+): Promise<string | void> => {
   try {
-    console.log(`trying to read ${filename}...`)
+    console.log(`trying to read ${filename}...`);
     const data = await fs.readFile(`${path}/${filename}`, {
       encoding: 'utf-8',
     });
@@ -14,7 +17,9 @@ export const readRawFile = async (filename: string, path = `${__dirname}/../../.
   }
 };
 
-export const getAssetNames = async (path = `${__dirname}/../../../assets`): Promise<string[] | void> => {
+export const getAssetNames = async (
+  path = `${__dirname}/../../../assets`
+): Promise<string[] | void> => {
   try {
     const assetNames = await fs.readdir(path);
     return assetNames;
@@ -23,7 +28,9 @@ export const getAssetNames = async (path = `${__dirname}/../../../assets`): Prom
   }
 };
 
-export const readAllAssets = async (path = `${__dirname}/../../../assets`): Promise<string[] | void> => {
+export const readAllAssets = async (
+  path = `${__dirname}/../../../assets`
+): Promise<string[] | void> => {
   try {
     const assetNames = (await getAssetNames(path)) as string[];
     const allFileContents = (await Promise.all(
@@ -68,18 +75,19 @@ export const mungeEpisode = (rawTranscript: string): EpisodeInput => {
   };
 };
 
-export const seedEpisodesIntoDb = async (): Promise<BulkCreateResponse | void> => {
-  try {
-    console.log('trying to seed episodes...');
-    const episodeFiles = (await readAllAssets()) as string[];
-    if (!episodeFiles) throw new Error('Could not read episode files');
+export const seedEpisodesIntoDb =
+  async (): Promise<BulkCreateResponse | void> => {
+    try {
+      console.log('trying to seed episodes...');
+      const episodeFiles = (await readAllAssets()) as string[];
+      if (!episodeFiles) throw new Error('Could not read episode files');
 
-    const seedResults = await Episode.bulkCreate(
-      episodeFiles.map((file) => mungeEpisode(file))
-    );
+      const seedResults = await Episode.bulkCreate(
+        episodeFiles.map((file) => mungeEpisode(file))
+      );
 
-    return seedResults;
-  } catch (error) {
-    console.error(error);
-  }
-};
+      return seedResults;
+    } catch (error) {
+      console.error(error);
+    }
+  };

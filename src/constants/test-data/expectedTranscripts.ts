@@ -38,7 +38,7 @@ _transcript truncated for test_
 
 End recording.
 
-##### [CLICK]`
+##### [CLICK]`;
 
 export const transcriptTwo = `---
 layout:         post
