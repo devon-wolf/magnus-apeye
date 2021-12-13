@@ -2,10 +2,10 @@ import * as fs from 'fs/promises';
 import { BulkCreateResponse, EpisodeInput } from '../../types';
 import Episode from '../models/Episode';
 
-export const readRawFile = async (filename: string): Promise<string | void> => {
+export const readRawFile = async (filename: string, path = `${__dirname}/../../../assets`): Promise<string | void> => {
   try {
     console.log(`trying to read ${filename}...`)
-    const data = await fs.readFile(`${__dirname}/../../../assets/${filename}`, {
+    const data = await fs.readFile(`${path}/${filename}`, {
       encoding: 'utf-8',
     });
     return data;
@@ -14,32 +14,21 @@ export const readRawFile = async (filename: string): Promise<string | void> => {
   }
 };
 
-export const getAssetNames = async (): Promise<string[] | void> => {
+export const getAssetNames = async (path = `${__dirname}/../../../assets`): Promise<string[] | void> => {
   try {
-    const assetNames = await fs.readdir(`${__dirname}/../../../assets`);
+    const assetNames = await fs.readdir(path);
     return assetNames;
   } catch (error) {
     console.error(error);
   }
 };
 
-export const readAllFilesByName = async (
-  filenames: string[]
-): Promise<string[] | void> => {
+export const readAllAssets = async (path = `${__dirname}/../../../assets`): Promise<string[] | void> => {
   try {
+    const assetNames = (await getAssetNames(path)) as string[];
     const allFileContents = (await Promise.all(
-      filenames.map((filename) => readRawFile(filename))
+      assetNames.map((assetName) => readRawFile(assetName, path))
     )) as string[];
-    return allFileContents;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const readAllAssets = async (): Promise<string[] | void> => {
-  try {
-    const assetNames = (await getAssetNames()) as string[];
-    const allFileContents = await readAllFilesByName(assetNames);
     return allFileContents;
   } catch (error) {
     console.error(error);
