@@ -33,7 +33,9 @@ describe('data ingestion unit tests', () => {
       '2016-03-25-002.md',
       '2016-03-27-003.md',
     ];
-    const actual = await getAssetNames(`${__dirname}/../constants/test-markdown`);
+    const actual = await getAssetNames(
+      `${__dirname}/../constants/test-markdown`
+    );
     expect(actual).toEqual(expected);
   });
 
@@ -55,9 +57,11 @@ describe('data ingestion unit tests', () => {
     //     result === altExpected5
     //   );
     // };
-    const actual = await readAllAssets(`${__dirname}/../constants/test-markdown`);
+    const actual = await readAllAssets(
+      `${__dirname}/../constants/test-markdown`
+    );
     expect(actual).toEqual(expected);
-});
+  });
 
   it('shapes raw string contents into an episode input object', () => {
     const expected: EpisodeInput = {
