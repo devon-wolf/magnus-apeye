@@ -71,7 +71,6 @@ class Episode {
         `,
         [episodeNumber, title, season, transcript, releaseDate]
       );
-      console.log(`Episode ${episodeNumber} created!`);
       return new Episode(rows[0]);
     } catch (error) {
       console.error(error);
