@@ -2,9 +2,11 @@ import * as fs from 'fs/promises';
 import { BulkCreateResponse, EpisodeInput } from '../../types';
 import Episode from '../models/Episode';
 
+const DEFAULT_PATH = `${__dirname}/../../../assets`;
+
 export const readRawFile = async (
   filename: string,
-  path = `${__dirname}/../../../assets`
+  path = DEFAULT_PATH
 ): Promise<string | void> => {
   try {
     console.log(`trying to read ${filename}...`);
@@ -18,7 +20,7 @@ export const readRawFile = async (
 };
 
 export const getAssetNames = async (
-  path = `${__dirname}/../../../assets`
+  path = DEFAULT_PATH
 ): Promise<string[] | void> => {
   try {
     const assetNames = await fs.readdir(path);
@@ -29,10 +31,12 @@ export const getAssetNames = async (
 };
 
 export const readAllAssets = async (
-  path = `${__dirname}/../../../assets`
+  path = DEFAULT_PATH
 ): Promise<string[] | void> => {
   try {
-    const assetNames = (await getAssetNames(path)) as string[];
+    let assetNames = (await getAssetNames(path)) as string[];
+    assetNames = assetNames.filter((name) => name !== 'LICENSE.md');
+
     const allFileContents = (await Promise.all(
       assetNames.map((assetName) => readRawFile(assetName, path))
     )) as string[];
@@ -42,52 +46,23 @@ export const readAllAssets = async (
   }
 };
 
-export const mungeEpisode = (rawTranscript: string): EpisodeInput => {
-  const splitFileContents = rawTranscript.split('---\n\n');
-  const metadata = splitFileContents[0];
-  const transcript = splitFileContents[1];
+export const seedEpisodesIntoDb = async (
+  path = DEFAULT_PATH
+): Promise<BulkCreateResponse | void> => {
+  try {
+    console.log('trying to seed episodes...');
+    const episodeFiles = (await readAllAssets(path)) as string[];
+    if (!episodeFiles) throw new Error('Could not read episode files');
 
-  const episodeNumber = Number(
-    metadata.split('episode_number:')[1].trim().slice(1, 4)
-  );
+    const formattedEpisodes = episodeFiles.map((file) =>
+      Episode.shapeInput(file)
+    );
 
-  const season =
-    episodeNumber <= 40
-      ? 1
-      : episodeNumber <= 80
-      ? 2
-      : episodeNumber <= 120
-      ? 3
-      : episodeNumber <= 160
-      ? 4
-      : 5;
+    const seedResults = await Episode.bulkCreate(formattedEpisodes);
+    console.log(`${seedResults.count} episodes seeded!`);
 
-  const title = metadata.split('episode_title:')[1].split('\n')[0].trim();
-
-  const releaseDate = new Date(metadata.split('date:')[1].trim().slice(0, 10));
-
-  return {
-    episodeNumber,
-    season,
-    title,
-    releaseDate,
-    transcript,
-  };
+    return seedResults;
+  } catch (error) {
+    console.error(error);
+  }
 };
-
-export const seedEpisodesIntoDb =
-  async (): Promise<BulkCreateResponse | void> => {
-    try {
-      console.log('trying to seed episodes...');
-      const episodeFiles = (await readAllAssets()) as string[];
-      if (!episodeFiles) throw new Error('Could not read episode files');
-
-      const seedResults = await Episode.bulkCreate(
-        episodeFiles.map((file) => mungeEpisode(file))
-      );
-
-      return seedResults;
-    } catch (error) {
-      console.error(error);
-    }
-  };
