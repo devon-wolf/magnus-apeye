@@ -6,23 +6,26 @@ class Episode {
   episodeNumber: number;
   title: string;
   season: number;
-  transcript: string;
   releaseDate: Date;
+  official: boolean;
+  transcript: string;
 
   constructor({
     id,
     episode_number,
     title,
     season,
-    transcript,
     release_date,
+    official,
+    transcript,
   }: DatabaseEpisode) {
     this.id = id;
     this.episodeNumber = episode_number;
     this.title = title;
     this.season = season;
-    this.transcript = transcript;
     this.releaseDate = release_date;
+    this.official = official;
+    this.transcript = transcript;
   }
 
   static shapeInput(rawTranscript: string): EpisodeInput {
@@ -51,11 +54,14 @@ class Episode {
       metadata.split('date:')[1].trim().slice(0, 10)
     );
 
+    const official = metadata.split('official:')[1].trim().startsWith('true');
+
     return {
       episodeNumber,
       season,
       title,
       releaseDate,
+      official,
       transcript,
     };
   }

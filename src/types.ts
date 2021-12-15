@@ -3,16 +3,18 @@ export interface DatabaseEpisode {
   episode_number: number;
   title: string;
   season: number;
-  transcript: string;
   release_date: Date;
+  official: boolean;
+  transcript: string;
 }
 
 export interface EpisodeInput {
   episodeNumber: number;
   title: string;
   season: number;
-  transcript: string;
   releaseDate: Date;
+  official: boolean;
+  transcript: string;
 }
 
 export interface MarkdownTranscript {
