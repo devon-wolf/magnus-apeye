@@ -1,5 +1,6 @@
 import { BulkCreateResponse, DatabaseEpisode, EpisodeInput } from '../../types';
 import pool from '../database/pool';
+import { seedEpisodesIntoDb } from '../ingestion/ingestMarkdown';
 
 class Episode {
   id: string;
@@ -64,6 +65,16 @@ class Episode {
       official,
       transcript,
     };
+  }
+
+  static async triggerSeed(): Promise<void> {
+    try {
+      console.log('Database seeding triggered...');
+      await seedEpisodesIntoDb();
+      console.log('Database seeding complete.');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   static async create(episode: EpisodeInput): Promise<Episode | unknown> {

@@ -7,6 +7,8 @@ const pool = new pg.Pool({
   ssl: PGSSLMODE && { rejectUnauthorized: false },
 });
 
-pool.on('connect', () => console.log('Postgres connected'));
+pool.on('connect', async () => {
+  console.log('Postgres connected');
+});
 
 export default pool;
