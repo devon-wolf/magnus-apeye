@@ -67,15 +67,15 @@ class Episode {
   }
 
   static async create(episode: EpisodeInput): Promise<Episode | unknown> {
-    const { episodeNumber, title, season, transcript, releaseDate } = episode;
+    const { episodeNumber, title, season, releaseDate, official, transcript } = episode;
     try {
       const { rows } = await pool.query(
         `
-            INSERT INTO episodes (episode_number, title, season, transcript, release_date)
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO episodes (episode_number, title, season, release_date, official, transcript)
+            VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *
         `,
-        [episodeNumber, title, season, transcript, releaseDate]
+        [episodeNumber, title, season, releaseDate, official, transcript]
       );
       return new Episode(rows[0]);
     } catch (error) {
@@ -106,7 +106,8 @@ class Episode {
             episode_number,
             title,
             season,
-            release_date
+            release_date,
+            official
             FROM episodes
           `);
       return rows.map(
