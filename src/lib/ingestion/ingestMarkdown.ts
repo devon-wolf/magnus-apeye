@@ -1,5 +1,5 @@
 import * as fs from 'fs/promises';
-import { BulkCreateResponse, EpisodeInput } from '../../types';
+import { BulkCreateResponse } from '../../types';
 import Episode from '../models/Episode';
 
 const DEFAULT_PATH = `${__dirname}/../../../assets`;
@@ -9,7 +9,6 @@ export const readRawFile = async (
   path = DEFAULT_PATH
 ): Promise<string | void> => {
   try {
-    console.log(`trying to read ${filename}...`);
     const data = await fs.readFile(`${path}/${filename}`, {
       encoding: 'utf-8',
     });

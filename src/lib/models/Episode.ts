@@ -1,28 +1,32 @@
 import { BulkCreateResponse, DatabaseEpisode, EpisodeInput } from '../../types';
 import pool from '../database/pool';
+import { seedEpisodesIntoDb } from '../ingestion/ingestMarkdown';
 
 class Episode {
   id: string;
   episodeNumber: number;
   title: string;
   season: number;
-  transcript: string;
   releaseDate: Date;
+  official: boolean;
+  transcript: string;
 
   constructor({
     id,
     episode_number,
     title,
     season,
-    transcript,
     release_date,
+    official,
+    transcript,
   }: DatabaseEpisode) {
     this.id = id;
     this.episodeNumber = episode_number;
     this.title = title;
     this.season = season;
-    this.transcript = transcript;
     this.releaseDate = release_date;
+    this.official = official;
+    this.transcript = transcript;
   }
 
   static shapeInput(rawTranscript: string): EpisodeInput {
@@ -51,27 +55,40 @@ class Episode {
       metadata.split('date:')[1].trim().slice(0, 10)
     );
 
+    const official = metadata.split('official:')[1].trim().startsWith('true');
+
     return {
       episodeNumber,
       season,
       title,
       releaseDate,
+      official,
       transcript,
     };
   }
 
+  static async triggerSeed(): Promise<void> {
+    try {
+      console.log('Database seeding triggered...');
+      await seedEpisodesIntoDb();
+      console.log('Database seeding complete.');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   static async create(episode: EpisodeInput): Promise<Episode | unknown> {
-    const { episodeNumber, title, season, transcript, releaseDate } = episode;
+    const { episodeNumber, title, season, releaseDate, official, transcript } =
+      episode;
     try {
       const { rows } = await pool.query(
         `
-            INSERT INTO episodes (episode_number, title, season, transcript, release_date)
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO episodes (episode_number, title, season, release_date, official, transcript)
+            VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *
         `,
-        [episodeNumber, title, season, transcript, releaseDate]
+        [episodeNumber, title, season, releaseDate, official, transcript]
       );
-      console.log(`Episode ${episodeNumber} created!`);
       return new Episode(rows[0]);
     } catch (error) {
       console.error(error);
@@ -101,7 +118,8 @@ class Episode {
             episode_number,
             title,
             season,
-            release_date
+            release_date,
+            official
             FROM episodes
           `);
       return rows.map(

@@ -5,6 +5,7 @@ CREATE TABLE episodes (
     episode_number INT NOT NULL,
     title TEXT NOT NULL,
     season INT NOT NULL,
-    transcript TEXT NOT NULL,
-    release_date DATE NOT NULL
+    release_date DATE NOT NULL,
+    official BOOLEAN NOT NULL,
+    transcript TEXT NOT NULL
 );
