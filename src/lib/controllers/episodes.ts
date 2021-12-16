@@ -15,7 +15,7 @@ const episodesController = Router()
       await Episode.triggerSeed();
       res.send('Episodes seeded! ...and database wiped...');
     } catch (error) {
-      console.error(error);
+      next(error);
     }
   });
 
