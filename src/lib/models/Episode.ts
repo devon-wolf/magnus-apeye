@@ -67,7 +67,8 @@ class Episode {
   }
 
   static async create(episode: EpisodeInput): Promise<Episode | unknown> {
-    const { episodeNumber, title, season, releaseDate, official, transcript } = episode;
+    const { episodeNumber, title, season, releaseDate, official, transcript } =
+      episode;
     try {
       const { rows } = await pool.query(
         `
