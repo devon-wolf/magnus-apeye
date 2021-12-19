@@ -1,7 +1,5 @@
 import express from 'express';
 import episodesController from './controllers/episodes';
-import pool from './database/pool';
-import setup from './database/setup';
 import { handleError, handleNotFound } from './middleware/error-handling';
 
 const app = express();

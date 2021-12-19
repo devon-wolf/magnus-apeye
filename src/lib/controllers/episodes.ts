@@ -12,7 +12,9 @@ const episodesController = Router()
   })
   .get('/:episodeNumber', async (req, res, next) => {
     try {
-      const episode = await Episode.getByEpisodeNumber(Number(req.params.episodeNumber));
+      const episode = await Episode.getByEpisodeNumber(
+        Number(req.params.episodeNumber)
+      );
       res.send(episode);
     } catch (error) {
       next(error);
