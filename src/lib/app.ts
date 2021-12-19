@@ -10,12 +10,6 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// TODO replace this, should work for now
-app.post('/setup-db', (req, res, next) => {
-  return setup(pool)
-    .then(() => res.send('Database setup complete.'))
-    .catch(next);
-});
 app.use('/episodes', episodesController);
 
 app.use(handleNotFound);
