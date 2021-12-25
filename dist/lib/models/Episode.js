@@ -165,7 +165,7 @@ var Episode = /** @class */ (function () {
                     case 1:
                         rows = (_a.sent()).rows;
                         return [2 /*return*/, rows.map(function (row) {
-                                return new Episode(__assign(__assign({}, row), { transcript: "Use Episode.getById(".concat(row.id, ") or Episode.getByEpisodeNumber(").concat(row.episode_number, ") for transcript") }));
+                                return new Episode(__assign(__assign({}, row), { transcript: "GET /episodes/".concat(row.episode_number, " for transcript") }));
                             })];
                     case 2:
                         error_4 = _a.sent();

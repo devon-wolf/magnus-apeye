@@ -126,7 +126,7 @@ class Episode {
         (row: DatabaseEpisode) =>
           new Episode({
             ...row,
-            transcript: `Use Episode.getById(${row.id}) or Episode.getByEpisodeNumber(${row.episode_number}) for transcript`,
+            transcript: `GET /episodes/${row.episode_number} for transcript`,
           })
       );
     } catch (error) {

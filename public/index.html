@@ -12,37 +12,56 @@
       <h1>Happy Birthday, Dear Archivist...</h1>
     </header>
     <main>
-      <h4>How to Use This API:</h4>
-      <ul>
-        <li>
-          <code class="endpoint"><strong>/episodes</strong></code>
-          <br />
-          <p>
-            example:
-            <code class="example-url"
-              >https://magnus-archive.herokuapp.com/episodes</code
+      <section>
+        <h4>How to Use This API:</h4>
+        <ul>
+          <li>
+            <code class="endpoint"><strong>GET /episodes</strong></code>
+            <br />
+            <p>
+              example:
+              <code class="example-url"
+                >https://magnus-archive.herokuapp.com/episodes</code
+              >
+            </p>
+            <p>gets metadata for all episodes</p>
+          </li>
+          <li>
+            <code class="endpoint"
+              ><strong>GET /episodes/</strong>:episodeNumber</code
             >
-          </p>
-          <p>gets metadata for all episodes</p>
-        </li>
-        <li>
-          <code class="endpoint"
-            ><strong>/episodes/</strong>:episodeNumber</code
-          >
-          <br />
-          <p>
-            example:
-            <code class="example-url"
-              >https://magnus-archive.herokuapp.com/episodes/3</code
-            >
-          </p>
-          <p>
-            gets metadata and transcript for a single episode by its episode
-            number
-          </p>
-        </li>
-      </ul>
-      <h5>...that's it! Enjoy.</h5>
+            <br />
+            <p>
+              example:
+              <code class="example-url"
+                >https://magnus-archive.herokuapp.com/episodes/3</code
+              >
+            </p>
+            <p>
+              gets metadata and transcript for a single episode by its episode
+              number
+            </p>
+          </li>
+        </ul>
+        <h5>...that's it! Enjoy.</h5>
+      </section>
+      <hr />
+      <section>
+        <h4>playground</h4>
+        <form id="endpoint-test-form">
+          <span>https://magnus-archive.herokuapp.com/</span
+          ><input
+            type="text"
+            placeholder="endpoint-you-want-to-visit"
+            id="endpoint-input"
+          />
+          <button>GET</button>
+        </form>
+      </section>
+      <section>
+        <h5>output:</h5>
+        <div id="output-wrapper"><pre id="api-output"></pre></div>
+      </section>
     </main>
     <footer>
       <p>
@@ -56,5 +75,6 @@
         >.
       </p>
     </footer>
+    <script src="./app.js" type="module"></script>
   </body>
 </html>
