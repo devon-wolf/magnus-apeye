@@ -113,9 +113,9 @@ describe('Episode model', function () {
             switch (_a.label) {
                 case 0:
                     expected = [
-                        __assign(__assign({}, expectedEpisodes_1.episodeOne), { id: '1', releaseDate: expect.any(Date), transcript: "Use Episode.getById(1) or Episode.getByEpisodeNumber(1) for transcript" }),
-                        __assign(__assign({}, expectedEpisodes_1.episodeTwo), { id: '2', releaseDate: expect.any(Date), transcript: "Use Episode.getById(2) or Episode.getByEpisodeNumber(2) for transcript" }),
-                        __assign(__assign({}, expectedEpisodes_1.episodeThree), { id: '3', releaseDate: expect.any(Date), transcript: "Use Episode.getById(3) or Episode.getByEpisodeNumber(3) for transcript" }),
+                        __assign(__assign({}, expectedEpisodes_1.episodeOne), { id: '1', releaseDate: expect.any(Date), transcript: "GET /episodes/1 for transcript" }),
+                        __assign(__assign({}, expectedEpisodes_1.episodeTwo), { id: '2', releaseDate: expect.any(Date), transcript: "GET /episodes/2 for transcript" }),
+                        __assign(__assign({}, expectedEpisodes_1.episodeThree), { id: '3', releaseDate: expect.any(Date), transcript: "GET /episodes/3 for transcript" }),
                     ];
                     return [4 /*yield*/, Episode_1.default.bulkCreate([expectedEpisodes_1.episodeOne, expectedEpisodes_1.episodeTwo, expectedEpisodes_1.episodeThree])];
                 case 1:

@@ -51,19 +51,19 @@ describe('Episode model', () => {
         ...episodeOne,
         id: '1',
         releaseDate: expect.any(Date),
-        transcript: `Use Episode.getById(1) or Episode.getByEpisodeNumber(1) for transcript`,
+        transcript: `GET /episodes/1 for transcript`,
       },
       {
         ...episodeTwo,
         id: '2',
         releaseDate: expect.any(Date),
-        transcript: `Use Episode.getById(2) or Episode.getByEpisodeNumber(2) for transcript`,
+        transcript: `GET /episodes/2 for transcript`,
       },
       {
         ...episodeThree,
         id: '3',
         releaseDate: expect.any(Date),
-        transcript: `Use Episode.getById(3) or Episode.getByEpisodeNumber(3) for transcript`,
+        transcript: `GET /episodes/3 for transcript`,
       },
     ];
 
