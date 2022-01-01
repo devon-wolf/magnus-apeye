@@ -1,7 +1,11 @@
 import setup from '../lib/database/setup';
 import Episode from '../lib/models/Episode';
 import pool from '../lib/database/pool';
-import { transcriptOne, transcriptThree, transcriptTwo } from '../constants/test-data/expectedTranscripts';
+import {
+  transcriptOne,
+  transcriptThree,
+  transcriptTwo,
+} from '../constants/test-data/expectedTranscripts';
 import {
   episodeOne,
   episodeTwo,

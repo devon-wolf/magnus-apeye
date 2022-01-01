@@ -33,7 +33,10 @@ class Episode {
   private static shapeInput(rawTranscript: string): EpisodeInput {
     const splitFileContents = rawTranscript.split('---\n\n');
     const metadata = splitFileContents[0];
-    const transcript = marked.parse(splitFileContents[1], { headerIds: false }).split('\n').join('');
+    const transcript = marked
+      .parse(splitFileContents[1], { headerIds: false })
+      .split('\n')
+      .join('');
 
     const episodeNumber = Number(
       metadata.split('episode_number:')[1].trim().slice(1, 4)
@@ -98,9 +101,7 @@ class Episode {
     }
   }
 
-  static async bulkCreate(
-    episodes: string[]
-  ): Promise<BulkCreateResponse> {
+  static async bulkCreate(episodes: string[]): Promise<BulkCreateResponse> {
     try {
       const bulkEpisodes: Array<Episode | unknown> = await Promise.all(
         episodes.map((episode) => Episode.create(episode))
