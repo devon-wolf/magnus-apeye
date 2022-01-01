@@ -67,7 +67,10 @@ var Episode = /** @class */ (function () {
     Episode.shapeInput = function (rawTranscript) {
         var splitFileContents = rawTranscript.split('---\n\n');
         var metadata = splitFileContents[0];
-        var transcript = marked_1.marked.parse(splitFileContents[1], { headerIds: false }).split('\n').join('');
+        var transcript = marked_1.marked
+            .parse(splitFileContents[1], { headerIds: false })
+            .split('\n')
+            .join('');
         var episodeNumber = Number(metadata.split('episode_number:')[1].trim().slice(1, 4));
         var season = episodeNumber <= 40
             ? 1
