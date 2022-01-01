@@ -8,7 +8,7 @@ const HEROKU_URL = 'https://magnus-archive.herokuapp.com';
 endpointTestForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (endpointInput.value.startsWith('episodes')) {
-        const response = await fetch(`${LOCAL_URL}/${endpointInput.value}`);
+        const response = await fetch(`${HEROKU_URL}/${endpointInput.value}`);
         const json = await response.json();
         apiOutput.innerText = JSON.stringify(json, null, 2);
         endpointInput.value = '';
