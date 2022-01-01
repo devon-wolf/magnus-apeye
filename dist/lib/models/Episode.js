@@ -52,6 +52,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var pool_1 = __importDefault(require("../database/pool"));
 var ingestMarkdown_1 = require("../ingestion/ingestMarkdown");
+var marked_1 = require("marked");
 var Episode = /** @class */ (function () {
     function Episode(_a) {
         var id = _a.id, episode_number = _a.episode_number, title = _a.title, season = _a.season, release_date = _a.release_date, official = _a.official, transcript = _a.transcript;
@@ -66,7 +67,7 @@ var Episode = /** @class */ (function () {
     Episode.shapeInput = function (rawTranscript) {
         var splitFileContents = rawTranscript.split('---\n\n');
         var metadata = splitFileContents[0];
-        var transcript = splitFileContents[1];
+        var transcript = marked_1.marked.parse(splitFileContents[1], { headerIds: false }).split('\n').join('');
         var episodeNumber = Number(metadata.split('episode_number:')[1].trim().slice(1, 4));
         var season = episodeNumber <= 40
             ? 1
@@ -111,13 +112,14 @@ var Episode = /** @class */ (function () {
             });
         });
     };
-    Episode.create = function (episode) {
+    Episode.create = function (rawEpisode) {
         return __awaiter(this, void 0, void 0, function () {
-            var episodeNumber, title, season, releaseDate, official, transcript, rows, error_2;
+            var input, episodeNumber, title, season, releaseDate, official, transcript, rows, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        episodeNumber = episode.episodeNumber, title = episode.title, season = episode.season, releaseDate = episode.releaseDate, official = episode.official, transcript = episode.transcript;
+                        input = this.shapeInput(rawEpisode);
+                        episodeNumber = input.episodeNumber, title = input.title, season = input.season, releaseDate = input.releaseDate, official = input.official, transcript = input.transcript;
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);

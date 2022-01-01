@@ -1,6 +1,7 @@
 import { BulkCreateResponse, DatabaseEpisode, EpisodeInput } from '../../types';
 import pool from '../database/pool';
 import { seedEpisodesIntoDb } from '../ingestion/ingestMarkdown';
+import { marked } from 'marked';
 
 class Episode {
   id: string;
@@ -29,10 +30,10 @@ class Episode {
     this.transcript = transcript;
   }
 
-  static shapeInput(rawTranscript: string): EpisodeInput {
+  private static shapeInput(rawTranscript: string): EpisodeInput {
     const splitFileContents = rawTranscript.split('---\n\n');
     const metadata = splitFileContents[0];
-    const transcript = splitFileContents[1];
+    const transcript = marked.parse(splitFileContents[1], { headerIds: false }).split('\n').join('');
 
     const episodeNumber = Number(
       metadata.split('episode_number:')[1].trim().slice(1, 4)
@@ -77,9 +78,10 @@ class Episode {
     }
   }
 
-  static async create(episode: EpisodeInput): Promise<Episode | unknown> {
+  static async create(rawEpisode: string): Promise<Episode | unknown> {
+    const input: EpisodeInput = this.shapeInput(rawEpisode);
     const { episodeNumber, title, season, releaseDate, official, transcript } =
-      episode;
+      input;
     try {
       const { rows } = await pool.query(
         `
@@ -97,7 +99,7 @@ class Episode {
   }
 
   static async bulkCreate(
-    episodes: EpisodeInput[]
+    episodes: string[]
   ): Promise<BulkCreateResponse> {
     try {
       const bulkEpisodes: Array<Episode | unknown> = await Promise.all(

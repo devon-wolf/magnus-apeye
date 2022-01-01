@@ -137,7 +137,7 @@ exports.readAllAssets = readAllAssets;
 var seedEpisodesIntoDb = function (path) {
     if (path === void 0) { path = DEFAULT_PATH; }
     return __awaiter(void 0, void 0, void 0, function () {
-        var episodeFiles, formattedEpisodes, seedResults, error_4;
+        var episodeFiles, seedResults, error_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -148,10 +148,7 @@ var seedEpisodesIntoDb = function (path) {
                     episodeFiles = (_a.sent());
                     if (!episodeFiles)
                         throw new Error('Could not read episode files');
-                    formattedEpisodes = episodeFiles.map(function (file) {
-                        return Episode_1.default.shapeInput(file);
-                    });
-                    return [4 /*yield*/, Episode_1.default.bulkCreate(formattedEpisodes)];
+                    return [4 /*yield*/, Episode_1.default.bulkCreate(episodeFiles)];
                 case 2:
                     seedResults = _a.sent();
                     console.log("".concat(seedResults.count, " episodes seeded!"));

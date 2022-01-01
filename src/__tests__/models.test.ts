@@ -1,7 +1,7 @@
 import setup from '../lib/database/setup';
 import Episode from '../lib/models/Episode';
 import pool from '../lib/database/pool';
-import { transcriptThree } from '../constants/test-data/expectedTranscripts';
+import { transcriptOne, transcriptThree, transcriptTwo } from '../constants/test-data/expectedTranscripts';
 import {
   episodeOne,
   episodeTwo,
@@ -19,28 +19,22 @@ describe('Episode model', () => {
     expect(Episode).toBeTruthy();
   });
 
-  it('shapes raw string contents into an episode input object', () => {
-    const expected = episodeThree;
-    const actual = Episode.shapeInput(transcriptThree);
-    expect(actual).toEqual(expected);
-  });
-
   it('creates a new episode in the db', async () => {
     const expected = {
       ...episodeOne,
       id: expect.any(String),
       releaseDate: expect.any(Date),
     };
-    const actual = await Episode.create(episodeOne);
+    const actual = await Episode.create(transcriptOne);
     expect(actual).toEqual(expected);
   });
 
   it('creates episodes in bulk', async () => {
     const expected = { success: true, count: 3 };
     const actual = await Episode.bulkCreate([
-      episodeOne,
-      episodeTwo,
-      episodeThree,
+      transcriptOne,
+      transcriptTwo,
+      transcriptThree,
     ]);
     expect(actual).toEqual(expected);
   });
@@ -67,13 +61,13 @@ describe('Episode model', () => {
       },
     ];
 
-    await Episode.bulkCreate([episodeOne, episodeTwo, episodeThree]);
+    await Episode.bulkCreate([transcriptOne, transcriptTwo, transcriptThree]);
     const actual = await Episode.getAll();
     expect(actual).toEqual(expected);
   });
 
   it('gets an episode by its id', async () => {
-    const episode = (await Episode.create(episodeOne)) as Episode;
+    const episode = (await Episode.create(transcriptOne)) as Episode;
     const expected = {
       ...episodeOne,
       id: episode.id,
@@ -89,7 +83,7 @@ describe('Episode model', () => {
       id: expect.any(String),
       releaseDate: expect.any(Date),
     };
-    await Episode.bulkCreate([episodeOne, episodeTwo, episodeThree]);
+    await Episode.bulkCreate([transcriptOne, transcriptTwo, transcriptThree]);
     const actual = await Episode.getByEpisodeNumber(2);
     expect(actual).toEqual(expected);
   });

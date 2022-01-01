@@ -53,11 +53,7 @@ export const seedEpisodesIntoDb = async (
     const episodeFiles = (await readAllAssets(path)) as string[];
     if (!episodeFiles) throw new Error('Could not read episode files');
 
-    const formattedEpisodes = episodeFiles.map((file) =>
-      Episode.shapeInput(file)
-    );
-
-    const seedResults = await Episode.bulkCreate(formattedEpisodes);
+    const seedResults = await Episode.bulkCreate(episodeFiles);
     console.log(`${seedResults.count} episodes seeded!`);
 
     return seedResults;

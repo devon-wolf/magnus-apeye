@@ -70,18 +70,13 @@ describe('Episode model', function () {
     it('exists', function () {
         expect(Episode_1.default).toBeTruthy();
     });
-    it('shapes raw string contents into an episode input object', function () {
-        var expected = expectedEpisodes_1.episodeThree;
-        var actual = Episode_1.default.shapeInput(expectedTranscripts_1.transcriptThree);
-        expect(actual).toEqual(expected);
-    });
     it('creates a new episode in the db', function () { return __awaiter(void 0, void 0, void 0, function () {
         var expected, actual;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     expected = __assign(__assign({}, expectedEpisodes_1.episodeOne), { id: expect.any(String), releaseDate: expect.any(Date) });
-                    return [4 /*yield*/, Episode_1.default.create(expectedEpisodes_1.episodeOne)];
+                    return [4 /*yield*/, Episode_1.default.create(expectedTranscripts_1.transcriptOne)];
                 case 1:
                     actual = _a.sent();
                     expect(actual).toEqual(expected);
@@ -96,9 +91,9 @@ describe('Episode model', function () {
                 case 0:
                     expected = { success: true, count: 3 };
                     return [4 /*yield*/, Episode_1.default.bulkCreate([
-                            expectedEpisodes_1.episodeOne,
-                            expectedEpisodes_1.episodeTwo,
-                            expectedEpisodes_1.episodeThree,
+                            expectedTranscripts_1.transcriptOne,
+                            expectedTranscripts_1.transcriptTwo,
+                            expectedTranscripts_1.transcriptThree,
                         ])];
                 case 1:
                     actual = _a.sent();
@@ -117,7 +112,7 @@ describe('Episode model', function () {
                         __assign(__assign({}, expectedEpisodes_1.episodeTwo), { id: '2', releaseDate: expect.any(Date), transcript: "GET /episodes/2 for transcript" }),
                         __assign(__assign({}, expectedEpisodes_1.episodeThree), { id: '3', releaseDate: expect.any(Date), transcript: "GET /episodes/3 for transcript" }),
                     ];
-                    return [4 /*yield*/, Episode_1.default.bulkCreate([expectedEpisodes_1.episodeOne, expectedEpisodes_1.episodeTwo, expectedEpisodes_1.episodeThree])];
+                    return [4 /*yield*/, Episode_1.default.bulkCreate([expectedTranscripts_1.transcriptOne, expectedTranscripts_1.transcriptTwo, expectedTranscripts_1.transcriptThree])];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, Episode_1.default.getAll()];
@@ -132,7 +127,7 @@ describe('Episode model', function () {
         var episode, expected, actual;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, Episode_1.default.create(expectedEpisodes_1.episodeOne)];
+                case 0: return [4 /*yield*/, Episode_1.default.create(expectedTranscripts_1.transcriptOne)];
                 case 1:
                     episode = (_a.sent());
                     expected = __assign(__assign({}, expectedEpisodes_1.episodeOne), { id: episode.id, releaseDate: expect.any(Date) });
@@ -150,7 +145,7 @@ describe('Episode model', function () {
             switch (_a.label) {
                 case 0:
                     expected = __assign(__assign({}, expectedEpisodes_1.episodeTwo), { id: expect.any(String), releaseDate: expect.any(Date) });
-                    return [4 /*yield*/, Episode_1.default.bulkCreate([expectedEpisodes_1.episodeOne, expectedEpisodes_1.episodeTwo, expectedEpisodes_1.episodeThree])];
+                    return [4 /*yield*/, Episode_1.default.bulkCreate([expectedTranscripts_1.transcriptOne, expectedTranscripts_1.transcriptTwo, expectedTranscripts_1.transcriptThree])];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, Episode_1.default.getByEpisodeNumber(2)];
