@@ -159,9 +159,31 @@ var Episode = /** @class */ (function () {
             });
         });
     };
-    Episode.getAll = function () {
+    Episode.getEpisodeCount = function () {
         return __awaiter(this, void 0, void 0, function () {
             var rows, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, pool_1.default.query("SELECT COUNT(*) FROM episodes")];
+                    case 1:
+                        rows = (_a.sent()).rows;
+                        return [2 /*return*/, rows[0]];
+                    case 2:
+                        error_4 = _a.sent();
+                        console.error(error_4);
+                        return [2 /*return*/, {
+                                count: error_4,
+                            }];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Episode.getAll = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var rows, error_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -173,9 +195,9 @@ var Episode = /** @class */ (function () {
                                 return new Episode(__assign(__assign({}, row), { transcript: "GET /episodes/".concat(row.episode_number, " for transcript") }));
                             })];
                     case 2:
-                        error_4 = _a.sent();
-                        console.error(error_4);
-                        return [2 /*return*/, error_4];
+                        error_5 = _a.sent();
+                        console.error(error_5);
+                        return [2 /*return*/, []];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -183,7 +205,7 @@ var Episode = /** @class */ (function () {
     };
     Episode.getById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var rows, error_5;
+            var rows, error_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -195,9 +217,9 @@ var Episode = /** @class */ (function () {
                         rows = (_a.sent()).rows;
                         return [2 /*return*/, new Episode(rows[0])];
                     case 2:
-                        error_5 = _a.sent();
-                        console.error(error_5);
-                        return [2 /*return*/, error_5];
+                        error_6 = _a.sent();
+                        console.error(error_6);
+                        return [2 /*return*/, error_6];
                     case 3: return [2 /*return*/];
                 }
             });
@@ -205,7 +227,7 @@ var Episode = /** @class */ (function () {
     };
     Episode.getByEpisodeNumber = function (episodeNumber) {
         return __awaiter(this, void 0, void 0, function () {
-            var rows, error_6;
+            var rows, error_7;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -215,9 +237,9 @@ var Episode = /** @class */ (function () {
                         rows = (_a.sent()).rows;
                         return [2 /*return*/, new Episode(rows[0])];
                     case 2:
-                        error_6 = _a.sent();
-                        console.error(error_6);
-                        return [2 /*return*/, error_6];
+                        error_7 = _a.sent();
+                        console.error(error_7);
+                        return [2 /*return*/, error_7];
                     case 3: return [2 /*return*/];
                 }
             });

@@ -56,3 +56,9 @@ export interface BulkCreateResponse {
   count?: number | undefined;
   error?: Error | undefined;
 }
+
+export interface CollectionResponse<T> {
+  count: string;
+  description: string;
+  data: Array<T>;
+}
