@@ -43,6 +43,12 @@ describe('Episode model', () => {
     expect(actual).toEqual(expected);
   });
 
+  it('gets a count of all episodes', async () => {
+    const expected = { count: expect.any(String) };
+    const actual = await Episode.getEpisodeCount();
+    expect(actual).toEqual(expected);
+  });
+
   it('gets all episodes', async () => {
     const expected = [
       {

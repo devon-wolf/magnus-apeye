@@ -113,7 +113,19 @@ class Episode {
     }
   }
 
-  static async getAll(): Promise<Episode[] | unknown> {
+  static async getEpisodeCount(): Promise<{ count: string }> {
+    try {
+      const { rows } = await pool.query(`SELECT COUNT(*) FROM episodes`);
+      return rows[0];
+    } catch (error) {
+      console.error(error);
+      return {
+        count: error as string,
+      };
+    }
+  }
+
+  static async getAll(): Promise<Episode[]> {
     try {
       const { rows } = await pool.query(`
             SELECT
@@ -134,7 +146,7 @@ class Episode {
       );
     } catch (error) {
       console.error(error);
-      return error;
+      return [];
     }
   }
 

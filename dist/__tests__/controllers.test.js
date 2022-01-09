@@ -43,6 +43,7 @@ var setup_1 = __importDefault(require("../lib/database/setup"));
 var pool_1 = __importDefault(require("../lib/database/pool"));
 var supertest_1 = __importDefault(require("supertest"));
 var app_1 = __importDefault(require("../lib/app"));
+var constants_1 = require("../constants/constants");
 describe('Episodes controller', function () {
     beforeEach(function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -62,6 +63,26 @@ describe('Episodes controller', function () {
                 case 1:
                     response = _a.sent();
                     expect(response).toBeTruthy();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('responds with query metadata and episode array', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var expected, response, actual;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    expected = {
+                        count: expect.any(String),
+                        description: constants_1.GET_EPISODES,
+                        data: expect.any(Array),
+                    };
+                    return [4 /*yield*/, (0, supertest_1.default)(app_1.default).get('/episodes')];
+                case 1:
+                    response = _a.sent();
+                    actual = response.body;
+                    console.log(actual);
+                    expect(actual).toEqual(expected);
                     return [2 /*return*/];
             }
         });

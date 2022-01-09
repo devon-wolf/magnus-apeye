@@ -102,6 +102,20 @@ describe('Episode model', function () {
             }
         });
     }); });
+    it('gets a count of all episodes', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var expected, actual;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    expected = { count: expect.any(String) };
+                    return [4 /*yield*/, Episode_1.default.getEpisodeCount()];
+                case 1:
+                    actual = _a.sent();
+                    expect(actual).toEqual(expected);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
     it('gets all episodes', function () { return __awaiter(void 0, void 0, void 0, function () {
         var expected, actual;
         return __generator(this, function (_a) {

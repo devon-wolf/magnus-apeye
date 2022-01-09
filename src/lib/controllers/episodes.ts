@@ -1,11 +1,19 @@
 import { Router } from 'express';
+import { GET_EPISODES } from '../../constants/constants';
+import { CollectionResponse } from '../../types';
 import Episode from '../models/Episode';
 
 const episodesController = Router()
   .get('/', async (req, res, next) => {
     try {
+      const { count } = await Episode.getEpisodeCount();
       const episodes = await Episode.getAll();
-      res.send(episodes);
+      const body: CollectionResponse<Episode> = {
+        count,
+        description: GET_EPISODES,
+        data: episodes,
+      };
+      res.send(body);
     } catch (error) {
       next(error);
     }

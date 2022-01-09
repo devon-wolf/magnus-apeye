@@ -40,24 +40,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
+var constants_1 = require("../../constants/constants");
 var Episode_1 = __importDefault(require("../models/Episode"));
 var episodesController = (0, express_1.Router)()
     .get('/', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var episodes, error_1;
+    var count, episodes, body, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Episode_1.default.getAll()];
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, Episode_1.default.getEpisodeCount()];
             case 1:
-                episodes = _a.sent();
-                res.send(episodes);
-                return [3 /*break*/, 3];
+                count = (_a.sent()).count;
+                return [4 /*yield*/, Episode_1.default.getAll()];
             case 2:
+                episodes = _a.sent();
+                body = {
+                    count: count,
+                    description: constants_1.GET_EPISODES,
+                    data: episodes,
+                };
+                res.send(body);
+                return [3 /*break*/, 4];
+            case 3:
                 error_1 = _a.sent();
                 next(error_1);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); })
