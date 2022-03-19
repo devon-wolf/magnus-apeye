@@ -39,16 +39,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var pg_1 = __importDefault(require("pg"));
-var PGSSLMODE = process.env.PGSSLMODE ? true : false;
-var pool = new pg_1.default.Pool({
-    connectionString: process.env.POSTGRES_TEST_DB,
-    ssl: PGSSLMODE && { rejectUnauthorized: false },
-});
-pool.on('connect', function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        console.log('Postgres connected');
-        return [2 /*return*/];
+var setup_1 = __importDefault(require("../database/setup"));
+var EpisodeServices_1 = __importDefault(require("./EpisodeServices"));
+var pool_1 = __importDefault(require("../database/pool"));
+describe('Episode services', function () {
+    beforeEach(function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, setup_1.default)(pool_1.default)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('exists', function () {
+        expect(EpisodeServices_1.default).toBeTruthy();
     });
-}); });
-exports.default = pool;
+});

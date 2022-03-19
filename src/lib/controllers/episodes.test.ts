@@ -1,8 +1,8 @@
-import setup from '../lib/database/setup';
-import pool from '../lib/database/pool';
+import setup from '../database/setup';
+import pool from '../database/pool';
 import request from 'supertest';
-import app from '../lib/app';
-import { GET_EPISODES } from '../constants/constants';
+import app from '../app';
+import { GET_EPISODES } from '../../constants/constants';
 
 describe('Episodes controller', () => {
   beforeEach(async () => {

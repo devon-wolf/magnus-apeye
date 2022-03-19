@@ -1,6 +1,6 @@
-import setup from '../lib/database/setup';
-import EpisodeServices from '../lib/services/EpisodeServices';
-import pool from '../lib/database/pool';
+import setup from '../database/setup';
+import EpisodeServices from './EpisodeServices';
+import pool from '../database/pool';
 
 describe('Episode services', () => {
   beforeEach(async () => {
