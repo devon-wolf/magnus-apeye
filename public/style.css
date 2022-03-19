@@ -1,5 +1,23 @@
 * {
+  --background: #e6e6e5;
+  --inset-bg: whitesmoke;
+  --main-text: #292929;
+  --endpoint-text: royalblue;
+  --example-text: darkslategray;
+  --link-text: #1616ad;
+
   box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  * {
+    --background: #292929;
+    --main-text: #e6e6e5;
+    --inset-bg: rgb(65, 65, 65);
+    --endpoint-text: skyblue;
+    --example-text: whitesmoke;
+    --link-text: lightblue;
+  }
 }
 
 html,
@@ -11,6 +29,8 @@ body {
 }
 
 body {
+  background-color: var(--background);
+  color: var(--main-text);
   font-family: monospace;
   display: flex;
   flex-direction: column;
@@ -31,7 +51,7 @@ footer {
 
 main {
   width: fit-content;
-  background-color: whitesmoke;
+  background-color: var(--inset-bg);
   border-radius: 10px;
   padding: 2rem;
   max-width: 80vw;
@@ -41,12 +61,16 @@ li {
   margin-bottom: 2rem;
 }
 
+a:link, a:visited {
+  color: var(--link-text);
+}
+
 .example-url {
-  color: darkslategray;
+  color: var(--example-text);
 }
 
 .endpoint {
-  color: royalblue;
+  color: var(--endpoint-text);
 }
 
 #output-wrapper {
