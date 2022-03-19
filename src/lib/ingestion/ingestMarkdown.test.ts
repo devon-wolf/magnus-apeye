@@ -3,7 +3,7 @@ import {
   getAssetNames,
   readAllAssets,
   seedEpisodesIntoDb,
-} from '../lib/ingestion/ingestMarkdown';
+} from './ingestMarkdown';
 import {
   transcriptOne,
   transcriptTwo,
@@ -20,12 +20,12 @@ import {
   transcriptOneTwentyThree,
   transcriptOneSixtyTwo,
   transcriptOneSixtyThree,
-} from '../constants/test-data/expectedTranscripts';
-import setup from '../lib/database/setup';
-import pool from '../lib/database/pool';
+} from '../../constants/test-data/expectedTranscripts';
+import setup from '../database/setup';
+import pool from '../database/pool';
 
 describe('data ingestion unit tests', () => {
-  const TEST_MARKDOWN_PATH = `${__dirname}/../constants/test-markdown`;
+  const TEST_MARKDOWN_PATH = `${__dirname}/../../constants/test-markdown`;
 
   beforeEach(async () => await setup(pool));
 

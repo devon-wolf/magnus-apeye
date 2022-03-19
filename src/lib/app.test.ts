@@ -1,7 +1,7 @@
-import pool from '../lib/database/pool';
-import setup from '../lib/database/setup';
+import pool from './database/pool';
+import setup from './database/setup';
 import request from 'supertest';
-import app from '../lib/app';
+import app from './app';
 
 describe('app tests', () => {
   beforeEach(async () => {

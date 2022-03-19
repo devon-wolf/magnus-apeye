@@ -1,16 +1,16 @@
-import setup from '../lib/database/setup';
-import Episode from '../lib/models/Episode';
-import pool from '../lib/database/pool';
+import setup from '../database/setup';
+import Episode from './Episode';
+import pool from '../database/pool';
 import {
   transcriptOne,
   transcriptThree,
   transcriptTwo,
-} from '../constants/test-data/expectedTranscripts';
+} from '../../constants/test-data/expectedTranscripts';
 import {
   episodeOne,
   episodeTwo,
   episodeThree,
-} from '../constants/test-data/expectedEpisodes';
+} from '../../constants/test-data/expectedEpisodes';
 
 // TODO fix dates
 
