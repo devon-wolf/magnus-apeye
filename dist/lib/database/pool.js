@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var pg_1 = __importDefault(require("pg"));
 var PGSSLMODE = process.env.PGSSLMODE ? true : false;
 var pool = new pg_1.default.Pool({
-    connectionString: process.env.POSTGRES_TEST_DB,
+    connectionString: process.env.DATABASE_URL,
     ssl: PGSSLMODE && { rejectUnauthorized: false },
 });
 pool.on('connect', function () { return __awaiter(void 0, void 0, void 0, function () {

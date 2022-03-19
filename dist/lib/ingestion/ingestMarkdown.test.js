@@ -44,7 +44,7 @@ var expectedTranscripts_1 = require("../../constants/test-data/expectedTranscrip
 var setup_1 = __importDefault(require("../database/setup"));
 var pool_1 = __importDefault(require("../database/pool"));
 describe('data ingestion unit tests', function () {
-    var TEST_MARKDOWN_PATH = "".concat(__dirname, "/../constants/test-markdown");
+    var TEST_MARKDOWN_PATH = "".concat(__dirname, "/../../constants/test-markdown");
     beforeEach(function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, setup_1.default)(pool_1.default)];
