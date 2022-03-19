@@ -25,7 +25,7 @@ import setup from '../database/setup';
 import pool from '../database/pool';
 
 describe('data ingestion unit tests', () => {
-  const TEST_MARKDOWN_PATH = `${__dirname}/../constants/test-markdown`;
+  const TEST_MARKDOWN_PATH = `${__dirname}/../../constants/test-markdown`;
 
   beforeEach(async () => await setup(pool));
 
