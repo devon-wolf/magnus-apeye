@@ -61,7 +61,8 @@ li {
   margin-bottom: 2rem;
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
   color: var(--link-text);
 }
 
