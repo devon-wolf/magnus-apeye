@@ -1,6 +1,4 @@
 import * as fs from 'fs/promises';
-import { BulkCreateResponse } from '../../types';
-import Episode from '../models/Episode';
 
 const DEFAULT_PATH = `${__dirname}/../../../assets`;
 
@@ -29,9 +27,7 @@ export const getAssetNames = async (
   }
 };
 
-export const readAllAssets = async (
-  path = DEFAULT_PATH
-): Promise<string[] | void> => {
+export const readAllAssets = async (path = DEFAULT_PATH): Promise<string[]> => {
   try {
     let assetNames = (await getAssetNames(path)) as string[];
     assetNames = assetNames.filter((name) => name !== 'LICENSE.md');
@@ -42,22 +38,6 @@ export const readAllAssets = async (
     return allFileContents;
   } catch (error) {
     console.error(error);
-  }
-};
-
-export const seedEpisodesIntoDb = async (
-  path = DEFAULT_PATH
-): Promise<BulkCreateResponse | void> => {
-  try {
-    console.log('trying to seed episodes...');
-    const episodeFiles = (await readAllAssets(path)) as string[];
-    if (!episodeFiles) throw new Error('Could not read episode files');
-
-    const seedResults = await Episode.bulkCreate(episodeFiles);
-    console.log(`${seedResults.count} episodes seeded!`);
-
-    return seedResults;
-  } catch (error) {
-    console.error(error);
+    throw error;
   }
 };
