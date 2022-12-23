@@ -1,37 +1,29 @@
-import { BulkCreateResponse, DatabaseEpisode, EpisodeInput } from '../../types';
-import pool from '../database/pool';
-import { seedEpisodesIntoDb } from '../ingestion/ingestMarkdown';
 import { marked } from 'marked';
 
+import { EpisodeInput } from '../../types';
+
 class Episode {
-  id: string;
   episodeNumber: number;
   title: string;
   season: number;
   releaseDate: Date;
   official: boolean;
   transcript: string;
+  rawTranscript: string;
 
-  constructor({
-    id,
-    episode_number,
-    title,
-    season,
-    release_date,
-    official,
-    transcript,
-  }: DatabaseEpisode) {
-    this.id = id;
-    this.episodeNumber = episode_number;
-    this.title = title;
-    this.season = season;
-    this.releaseDate = release_date;
-    this.official = official;
-    this.transcript = transcript;
+  constructor(rawTranscript: string) {
+    this.rawTranscript = rawTranscript;
+    const episodeData = this.getEpisodeData();
+    this.episodeNumber = episodeData.episodeNumber;
+    this.title = episodeData.title;
+    this.season = episodeData.season;
+    this.releaseDate = episodeData.releaseDate;
+    this.official = episodeData.official;
+    this.transcript = episodeData.transcript;
   }
 
-  private static shapeInput(rawTranscript: string): EpisodeInput {
-    const splitFileContents = rawTranscript.split('---\n\n');
+  private getEpisodeData(): EpisodeInput {
+    const splitFileContents = this.rawTranscript.split('---\n\n');
     const metadata = splitFileContents[0];
     const transcript = marked
       .parse(splitFileContents[1], { headerIds: false })
@@ -71,110 +63,13 @@ class Episode {
     };
   }
 
-  static async triggerSeed(): Promise<void> {
-    try {
-      console.log('Database seeding triggered...');
-      await seedEpisodesIntoDb();
-      console.log('Database seeding complete.');
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  static async create(rawEpisode: string): Promise<Episode | unknown> {
-    const input: EpisodeInput = this.shapeInput(rawEpisode);
-    const { episodeNumber, title, season, releaseDate, official, transcript } =
-      input;
-    try {
-      const { rows } = await pool.query(
-        `
-            INSERT INTO episodes (episode_number, title, season, release_date, official, transcript)
-            VALUES ($1, $2, $3, $4, $5, $6)
-            RETURNING *
-        `,
-        [episodeNumber, title, season, releaseDate, official, transcript]
-      );
-      return new Episode(rows[0]);
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  }
-
-  static async bulkCreate(episodes: string[]): Promise<BulkCreateResponse> {
-    try {
-      const bulkEpisodes: Array<Episode | unknown> = await Promise.all(
-        episodes.map((episode) => Episode.create(episode))
-      );
-      return { success: true, count: bulkEpisodes.length };
-    } catch (error) {
-      console.error(error);
-      return { success: false, error: error as Error };
-    }
-  }
-
-  static async getEpisodeCount(): Promise<{ count: string }> {
-    try {
-      const { rows } = await pool.query(`SELECT COUNT(*) FROM episodes`);
-      return rows[0];
-    } catch (error) {
-      console.error(error);
-      return {
-        count: error as string,
-      };
-    }
-  }
-
-  static async getAll(): Promise<Episode[]> {
-    try {
-      const { rows } = await pool.query(`
-            SELECT
-            id,
-            episode_number,
-            title,
-            season,
-            release_date,
-            official
-            FROM episodes
-          `);
-      return rows.map(
-        (row: DatabaseEpisode) =>
-          new Episode({
-            ...row,
-            transcript: `GET /episodes/${row.episode_number} for transcript`,
-          })
-      );
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  }
-
-  static async getById(id: string): Promise<Episode | unknown> {
-    try {
-      const { rows } = await pool.query('SELECT * FROM episodes WHERE id=$1', [
-        id,
-      ]);
-      return new Episode(rows[0]);
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  }
-
-  static async getByEpisodeNumber(
-    episodeNumber: number
-  ): Promise<Episode | unknown> {
-    try {
-      const { rows } = await pool.query(
-        'SELECT * FROM episodes WHERE episode_number=$1',
-        [episodeNumber]
-      );
-      return new Episode(rows[0]);
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
+  returnWithTranscriptMessage(): Episode {
+    const transcriptMessage = `GET /episodes/${this.episodeNumber} for transcript`;
+    return {
+      ...this,
+      transcript: transcriptMessage,
+      rawTranscript: transcriptMessage,
+    };
   }
 }
 

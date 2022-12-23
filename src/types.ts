@@ -58,7 +58,7 @@ export interface BulkCreateResponse {
 }
 
 export interface CollectionResponse<T> {
-  count: string;
+  count: number;
   description: string;
   data: Array<T>;
 }

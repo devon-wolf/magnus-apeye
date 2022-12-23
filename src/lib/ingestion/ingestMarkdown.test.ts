@@ -1,9 +1,4 @@
-import {
-  readRawFile,
-  getAssetNames,
-  readAllAssets,
-  seedEpisodesIntoDb,
-} from './ingestMarkdown';
+import { readRawFile, getAssetNames, readAllAssets } from './ingestMarkdown';
 import {
   transcriptOne,
   transcriptTwo,
@@ -21,13 +16,9 @@ import {
   transcriptOneSixtyTwo,
   transcriptOneSixtyThree,
 } from '../../constants/test-data/expectedTranscripts';
-import setup from '../database/setup';
-import pool from '../database/pool';
 
 describe('data ingestion unit tests', () => {
   const TEST_MARKDOWN_PATH = `${__dirname}/../../constants/test-markdown`;
-
-  beforeEach(async () => await setup(pool));
 
   it('reads the contents of a file', async () => {
     const expected = transcriptOne;
@@ -77,12 +68,6 @@ describe('data ingestion unit tests', () => {
       transcriptOneSixtyThree,
     ];
     const actual = await readAllAssets(TEST_MARKDOWN_PATH);
-    expect(actual).toEqual(expected);
-  });
-
-  it('seeds the contents of a directory to the database', async () => {
-    const expected = { success: true, count: 15 };
-    const actual = await seedEpisodesIntoDb(TEST_MARKDOWN_PATH);
     expect(actual).toEqual(expected);
   });
 });

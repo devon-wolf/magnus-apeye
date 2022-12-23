@@ -1,14 +1,8 @@
-import setup from '../database/setup';
-import pool from '../database/pool';
 import request from 'supertest';
 import app from '../app';
 import { GET_EPISODES } from '../../constants/constants';
 
 describe('Episodes controller', () => {
-  beforeEach(async () => {
-    await setup(pool);
-  });
-
   it('responds to a request', async () => {
     const response = await request(app).get('/episodes');
     expect(response).toBeTruthy();

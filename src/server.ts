@@ -1,5 +1,4 @@
 import app from './lib/app';
-import pool from './lib/database/pool';
 
 const PORT = process.env.PORT || 7890;
 
@@ -9,5 +8,4 @@ app.listen(PORT, () => {
 
 process.on('exit', () => {
   console.log('Goodbye!');
-  pool.end();
 });
