@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { readAllAssets } from '../ingestion/ingestMarkdown';
 import EpisodeCollection from '../models/EpisodeCollection';
 
+let episodeCollection: EpisodeCollection;
 async function getEpisodeCollection(): Promise<EpisodeCollection> {
   try {
     const rawTranscripts = await readAllAssets();
@@ -14,7 +15,7 @@ async function getEpisodeCollection(): Promise<EpisodeCollection> {
   }
 }
 
-const episodeCollection = await getEpisodeCollection();
+getEpisodeCollection().then((collection) => episodeCollection = collection);
 
 const episodesController = Router()
   .get('/', async (req, res, next) => {

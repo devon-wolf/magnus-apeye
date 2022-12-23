@@ -10,13 +10,12 @@ describe('Episodes controller', () => {
 
   it('responds with query metadata and episode array', async () => {
     const expected = {
-      count: expect.any(String),
+      count: expect.any(Number),
       description: GET_EPISODES,
       data: expect.any(Array),
     };
     const response = await request(app).get('/episodes');
     const actual = response.body;
-    console.log(actual);
     expect(actual).toEqual(expected);
   });
 });
