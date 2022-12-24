@@ -25,27 +25,30 @@ describe('Episode collection model', () => {
   });
 
   it('gets all episodes', async () => {
+    const { transcript: transcriptOne, ...restOne } = episodeOne;
+    const { transcript: transcriptTwo, ...restTwo } = episodeTwo;
+    const { transcript: transcriptThree, ...restThree } = episodeThree;
     const expected = {
       count: 3,
       description: GET_EPISODES,
       data: [
         {
-          ...episodeOne,
+          ...restOne,
           releaseDate: expect.any(Date),
-          transcript: `GET /episodes/1 for transcript`,
-          rawTranscript: `GET /episodes/1 for transcript`,
+          transcriptPath: `/episodes/1`,
+          id: '2016-03-23-001',
         },
         {
-          ...episodeTwo,
+          ...restTwo,
           releaseDate: expect.any(Date),
-          transcript: `GET /episodes/2 for transcript`,
-          rawTranscript: `GET /episodes/2 for transcript`,
+          transcriptPath: `/episodes/2`,
+          id: '2016-03-25-002',
         },
         {
-          ...episodeThree,
+          ...restThree,
           releaseDate: expect.any(Date),
-          transcript: `GET /episodes/3 for transcript`,
-          rawTranscript: `GET /episodes/3 for transcript`,
+          transcriptPath: `/episodes/3`,
+          id: '2016-03-27-003',
         },
       ],
     };
@@ -57,7 +60,8 @@ describe('Episode collection model', () => {
   it('gets an episode by its episode number', async () => {
     const expected = {
       ...episodeOne,
-      rawTranscript: transcriptOne,
+      rawTranscript: transcriptOne.data,
+      id: '2016-03-23-001',
       releaseDate: expect.any(Date),
     };
     const actual = testCollection.getByEpisodeNumber(1);

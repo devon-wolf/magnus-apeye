@@ -1,20 +1,23 @@
-export interface DatabaseEpisode {
-  id: string;
-  episode_number: number;
+interface EpisodeBase {
+  episodeNumber: number | null;
   title: string;
-  season: number;
-  release_date: Date;
+  season: number | null;
+  releaseDate: Date;
   official: boolean;
+}
+
+export interface EpisodeInput extends EpisodeBase {
   transcript: string;
 }
 
-export interface EpisodeInput {
-  episodeNumber: number;
-  title: string;
-  season: number;
-  releaseDate: Date;
-  official: boolean;
-  transcript: string;
+export interface EpisodeMetadata extends EpisodeBase {
+  id: string;
+  transcriptPath: string;
+}
+
+export interface TranscriptFileData {
+  filename: string;
+  data: string;
 }
 
 export interface MarkdownTranscript {
@@ -49,12 +52,6 @@ export interface MarkdownTranscript {
     wiki_url?: string;
   };
   transcript: string | string[];
-}
-
-export interface BulkCreateResponse {
-  success: boolean;
-  count?: number | undefined;
-  error?: Error | undefined;
 }
 
 export interface CollectionResponse<T> {

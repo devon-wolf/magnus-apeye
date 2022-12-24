@@ -1,25 +1,29 @@
-import { CollectionResponse } from '../../types';
+import {
+  CollectionResponse,
+  EpisodeMetadata,
+  TranscriptFileData,
+} from '../../types';
 import { GET_EPISODES } from '../../constants/constants';
 import Episode from './Episode';
 
 class EpisodeCollection {
   episodes: Episode[] = [];
 
-  constructor(rawTranscripts: string[]) {
-    this.episodes = rawTranscripts.map((transcript) => new Episode(transcript));
+  constructor(rawTranscripts: TranscriptFileData[]) {
+    this.episodes = rawTranscripts.map((transcript) => {
+      return new Episode(transcript);
+    });
   }
 
   getEpisodeCount(): number {
     return this.episodes.length;
   }
 
-  getAll(): CollectionResponse<Episode> {
+  getAll(): CollectionResponse<EpisodeMetadata> {
     return {
       count: this.getEpisodeCount(),
       description: GET_EPISODES,
-      data: this.episodes.map((episode) =>
-        episode.returnWithTranscriptMessage()
-      ),
+      data: this.episodes.map((episode) => episode.returnMetadata()),
     };
   }
 
