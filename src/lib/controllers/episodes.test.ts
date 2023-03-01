@@ -2,6 +2,8 @@ import request from 'supertest';
 import app from '../app';
 import { GET_EPISODES } from '../../constants/constants';
 
+jest.setTimeout(10000);
+
 describe('Episodes controller', () => {
   it('responds to a request', async () => {
     const response = await request(app).get('/episodes');

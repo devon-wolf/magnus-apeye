@@ -1,4 +1,5 @@
-export const transcriptOne = `---
+export const transcriptOne = {
+  filename: '2016-03-23-001.md', data: `---
 layout:         post
 title:          "MAG001 - #0122204 - Anglerfish"
 date:           2016-03-23 12:00:00 -0400
@@ -38,9 +39,10 @@ _transcript truncated for test_
 
 End recording.
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptTwo = `---
+export const transcriptTwo = {
+  filename: '2016-03-25-002.md', data: `---
 layout:         post
 title:          "MAG002 - #9982211 - Do Not Open"
 date:           2016-03-25 12:00:00 -0400
@@ -78,9 +80,10 @@ _transcript truncated for test_
 
 Recording ends.
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptThree = `---
+export const transcriptThree = {
+  filename: '2016-03-27-003.md', data: `---
 layout:         post
 title:          "MAG003 - #0070107 - Across the Street"
 date:           2016-03-27 12:00:00 -0400
@@ -118,9 +121,9 @@ _transcript truncated for test_
 
 Recording ends.
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptFortyOne = `---
+export const transcriptFortyOne = { filename: '2016-11-30-041.md', data: `---
 layout:         post
 title:          "MAG041 - #0160902 - Too Deep"
 date:           2016-11-30 12:00:00 -0400
@@ -156,9 +159,9 @@ _truncated for test_
 
 End supplement.
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptFortyTwo = `---
+export const transcriptFortyTwo = {filename: '2016-12-07-042.md', data: `---
 layout:         post
 title:          "MAG042 - #0131103 - Grifter's Bone"
 date:           2016-12-07 12:00:00 -0400
@@ -196,9 +199,9 @@ _truncated for test_
 
 End supplement.
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptFortyThree = `---
+export const transcriptFortyThree = {filename: '2016-12-14-043.md', data: `---
 layout:          post
 title:           "MAG043 - #0160919 - Section 31"
 date:            2016-12-14 12:00:00 -0400
@@ -235,9 +238,9 @@ _truncated for test_
 
 End supplemental.
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptEightyOne = `---
+export const transcriptEightyOne = {filename: '2017-11-22-081.md', data: `---
 layout:         post
 title:          "MAG081 - #0171802-A - A Guest for Mr. Spider"
 date:           2017-11-22 12:00:00 -0400
@@ -275,9 +278,9 @@ _truncated for test_
 
 ##### [ARCHIVIST EXHALES]
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptEightyTwo = `---
+export const transcriptEightyTwo = {filename: '2017-11-29-082.md', data: `---
 layout:         post
 title:          "MAG082 - #0171802-B - The Eyewitnesses"
 date:           2017-11-29 12:00:00 -0400
@@ -324,9 +327,9 @@ _truncated for test_
 
 Huh. _[Calling after]_ Tim? Tim, did you turn the reco--
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptEightyThree = `---
+export const transcriptEightyThree = {filename: '2017-12-06-083.md', data: `---
 layout:         post
 title:          "MAG083 - #0131910 - Drawing a Blank"
 date:           2017-12-06 12:00:00 -0400
@@ -366,9 +369,9 @@ _truncated for test_
 
 Recording ends.
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptOneTwentyOne = `---
+export const transcriptOneTwentyOne = {filename: '2019-01-09-121.md', data: `---
 layout:          post
 title:           "MAG121 - #0181502 - Far Away"
 date:            2019-01-09 12:00:00 -0400
@@ -417,9 +420,9 @@ _truncated for test_
 
 ##### [ARCHIVIST SHIFTS IN BED AND BEGINS TO BREATHE]
 
-##### [CLICK]`;
+##### [CLICK]`};
 
-export const transcriptOneTwentyTwo = `---
+export const transcriptOneTwentyTwo = {filename: '2019-01-16-122.md', data: `---
 layout:          post
 title:           "MAG122 - #0150102 - Zombie"
 date:            2019-01-16 12:00:00 -0400
@@ -460,9 +463,9 @@ _truncated for test_
 
 End recording, I suppose.
 
-##### [TAPE CLICKS OFF.]`;
+##### [TAPE CLICKS OFF.]`};
 
-export const transcriptOneTwentyThree = `---
+export const transcriptOneTwentyThree = {filename: '2019-01-23-123.md', data: `---
 layout:          post
 title:           "MAG123 - #0150108 - Web Development"
 date:            2019-01-23 12:00:00 -0400
@@ -507,9 +510,9 @@ _truncated for test_
 
 End recording.
 
-##### [TAPE CLICKS OFF.]`;
+##### [TAPE CLICKS OFF.]`};
 
-export const transcriptOneSixtyOne = `---
+export const transcriptOneSixtyOne = {filename: '2020-04-02-161.md', data: `---
 layout:          post
 title:           "MAG161 - #########-1 - Dwelling"
 date:            2020-04-02 12:00:00 -0400
@@ -567,9 +570,9 @@ _truncated for test_
 No. No, it's not.
 
 ##### [TAPE CLICKS OFF.]
-`;
+`};
 
-export const transcriptOneSixtyTwo = `---
+export const transcriptOneSixtyTwo = {filename: '2020-04-09-162.md', data: `---
 layout:          post
 title:           "MAG162 - ########-2 - A Cozy Cabin"
 date:            2020-04-09 12:00:00 -0400
@@ -626,9 +629,9 @@ Let's go.
 
 ##### [We hear them grab their stuff. The world howls on outside.]
 
-##### [TAPE CLICKS OFF.]`;
+##### [TAPE CLICKS OFF.]`};
 
-export const transcriptOneSixtyThree = `---
+export const transcriptOneSixtyThree = {filename: '2020-04-16-163.md', data: `---
 layout:          post
 title:           "MAG163 - ########-3 - In the Trenches"
 date:            2020-04-16 12:00:00 -0400
@@ -683,4 +686,4 @@ Mm.
 
 ##### [They slosh on.]
 
-##### [TAPE CLICKS OFF.]`;
+##### [TAPE CLICKS OFF.]`};

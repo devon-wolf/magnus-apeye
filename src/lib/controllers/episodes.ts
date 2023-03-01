@@ -15,7 +15,7 @@ async function getEpisodeCollection(): Promise<EpisodeCollection> {
   }
 }
 
-getEpisodeCollection().then((collection) => episodeCollection = collection);
+getEpisodeCollection().then((collection) => (episodeCollection = collection));
 
 const episodesController = Router()
   .get('/', async (req, res, next) => {

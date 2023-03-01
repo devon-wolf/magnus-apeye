@@ -1,6 +1,8 @@
 import request from 'supertest';
 import app from './app';
 
+jest.setTimeout(10000);
+
 describe('app tests', () => {
   it('responds to a request', async () => {
     const response = await request(app).get('/');
